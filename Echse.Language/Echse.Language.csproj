@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Echse.Domain\Echse.Domain.csproj" />
+    <ProjectReference Include="..\states\States.Core\States.Core.csproj" />
+  </ItemGroup>
+
+</Project>
