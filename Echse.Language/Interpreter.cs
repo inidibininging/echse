@@ -50,15 +50,15 @@ namespace Echse.Language
                         
                 // HandleInstruction<CreateExpression, CreateInstruction<T>>((s) => s == LexiconSymbol.Create);
                 _createList.ForEach(createInstruction => createInstruction());
-                
                 HandleInstruction<DestroyExpression, DestroyInstruction>((s) => s == LexiconSymbol.Destroy);
                 HandleInstruction<ExecuteExpression, ExecuteInstruction>((s) => s == LexiconSymbol.Execute); //TODO: Fix this 
                 HandleInstruction<FunctionExpression, FunctionInstruction>((s) => s == LexiconSymbol.FunctionIdentifier); //TODO: Fix this
                 HandleInstruction<AssignExpression, AssignInstruction>((s) => s == LexiconSymbol.Set);
                 HandleInstruction<ReturnExpression, ReturnInstruction>((s) => s == LexiconSymbol.Return);
                 HandleInstruction<WaitExpression, WaitInstruction>((s) => s == LexiconSymbol.Wait);
+                _customList.ForEach(customInstruction => customInstruction());
+                _modifyList.ForEach(modInstruction => modInstruction());
                 
-                _modifyList.ForEach(createInstruction => createInstruction());
                 // HandleInstruction<ModifyAttributeExpression, ModifyInstruction<T>>((s) => s == LexiconSymbol.Modify);
             }
         }
@@ -106,8 +106,17 @@ namespace Echse.Language
 
         private List<Action> _createList = new();
         private List<Action> _modifyList = new();
-            
-        public Interpreter AddCreate<TEntity>(
+        private List<Action> _customList = new();
+
+        public Interpreter Add<TExpr, TInstr>(Func<LexiconSymbol, bool> symbolPredicate)
+            where TExpr : AbstractLanguageExpression, new()
+            where TInstr : AbstractInterpreterInstruction<TExpr>
+        {
+            _customList.Add(() => HandleInstruction<TExpr, TInstr>(symbolPredicate));
+            return this;
+        }
+        
+        public Interpreter AddCreateInstruction<TEntity>(
             Func<LexiconSymbol, bool> createSymbolPredicate,
             Func<string, bool> createPredicate,
             Action<string, string> createFunctionWithArgumentsToCall)
@@ -119,7 +128,7 @@ namespace Echse.Language
             return this;
         }
         
-        public Interpreter AddCreate<TEntity>(
+        public Interpreter AddModifyInstruction<TEntity>(
             Func<LexiconSymbol, bool> modifySymbolPredicate, 
             Func<string, IEnumerable<TEntity>> tagPredicate,
             Func<EntityExpression, IEnumerable<TEntity>> entityPredicate,
@@ -127,7 +136,7 @@ namespace Echse.Language
         {
             _modifyList.Add(() =>
             {
-                HandleModifyInstruction<TEntity>(modifySymbolPredicate, tagPredicate, entityPredicate, entityHandler);
+                HandleModifyInstruction(modifySymbolPredicate, tagPredicate, entityPredicate, entityHandler);
             });
             return this;
         }  
