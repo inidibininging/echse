@@ -1,5 +1,5 @@
-![Echse Logo](/logo.png)
-# echse
+
+# echse ![Echse Logo](/logo.png)
 
 self-made programming language for other projects and fun :)
 
