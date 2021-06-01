@@ -22,7 +22,7 @@ namespace Echse.Language
                 if(!machine.SharedContext.MoveNext())
                     break;
             }
-            Name = string.Join("",entityName.ToString().Skip(1));
+            Name = string.Join("",entityName.ToString().Skip(1).SkipLast(1));
             // Console.WriteLine($"Faction set to {Name}");
             if (string.IsNullOrWhiteSpace(Name))
                 throw new ArgumentNullException($"Syntax Error. Cannot process Tag Expression Name near {machine.SharedContext.CurrentBuffer}");

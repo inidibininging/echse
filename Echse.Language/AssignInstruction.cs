@@ -113,11 +113,23 @@ namespace Echse.Language
                         var exe = new ExecuteInstruction(Owner, Expression.Right as ExecuteExpression, FunctionIndex);
                         exe.Handle(machine);
                         
+                        //lookup the function inside the interpreted instructions
+                        //if none is found, the return assignment 
                         var theFunction = Owner.Instructions.FirstOrDefault(i =>
                             i is FunctionInstruction functionInstruction &&
                             functionInstruction?.Expression.Name == this.Expression.Right.Name) as FunctionInstruction;
-                        tagValueAssigned = theFunction?.LastReturnValue.Value.Name;
-                        
+
+
+                        if (theFunction == null)
+                        {
+                            var functionOfMachine = machine.GetService.Get(Expression.Right.Name) as ICustomReturnInstruction;
+                            tagValueAssigned = functionOfMachine?.ReturnTagValue;
+                        }
+                        else
+                        {
+                            tagValueAssigned = theFunction?.LastReturnValue.Value.Name;
+                        }
+
                         break;
 
                     case TagExpression:

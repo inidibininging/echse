@@ -41,7 +41,7 @@ namespace Echse.Language
             while(SharedContext.MoveNext() &&
                   SharedContext.Current != LexiconSymbol.NA)
             {
-                // Console.WriteLine(Enum.GetName(typeof(LexiconSymbol), SharedContext.Current));
+                //Console.WriteLine(Enum.GetName(typeof(LexiconSymbol), SharedContext.Current));
                 if(SharedContext.Current == LexiconSymbol.NotFound)
                     continue;
 
@@ -141,7 +141,7 @@ namespace Echse.Language
             return this;
         }  
 
-        public List<IAbstractInterpreterInstruction<IAbstractLanguageExpression>> Instructions { get; set; } = new List<IAbstractInterpreterInstruction<IAbstractLanguageExpression>>();
+        public List<IAbstractInterpreterInstruction<IAbstractLanguageExpression>> Instructions { get; set; } = new ();
 
         public IReadOnlyDictionary<string, TimeSpan> TimeLog => throw new NotImplementedException();
     }

@@ -6,15 +6,15 @@ namespace Echse.Language
 {
     public class Lexicon
     {
-        public readonly List<char> Empty = new List<char>() { char.MinValue };
-        public readonly List<char> Space = new List<char>(){ ' ' };
+        public readonly List<char> Empty = new () { char.MinValue };
+        public readonly List<char> Space = new (){ ' ' };
         public readonly List<char> Separator = System.Environment.NewLine.ToList();
-        public readonly List<char> Carriage = new List<char>() { '\r' };
-        public readonly List<char> LineFeed = new List<char>() { '\n' };
-        public readonly List<char> Tab = new List<char>() { '\t' };
-        public readonly List<char> PositiveSign = new List<char>() { '+' };
-        public readonly List<char> NegativeSign = new List<char>() { '-' };
-        public readonly List<char> Assignment = new List<char>() { '=' };
+        public readonly List<char> Carriage = new () { '\r' };
+        public readonly List<char> LineFeed = new () { '\n' };
+        public readonly List<char> Tab = new () { '\t' };
+        public readonly List<char> PositiveSign = new () { '+' };
+        public readonly List<char> NegativeSign = new () { '-' };
+        public readonly List<char> Assignment = new () { '=' };
         public readonly List<char> If = "If".ToList();
         public readonly List<char> Equal = "Is".ToList();
         public readonly List<char> EndIf = "EndIf".ToList();
@@ -36,7 +36,7 @@ namespace Echse.Language
         // public readonly List<char> ClassNameForAttributes = typeof(CharacterSheet).FullName.ToList();
         public readonly List<char> EntityIdentifier = "#".ToList();
         public readonly List<char> RefIdentifier = "&".ToList();
-        public readonly List<char> TagIdentifier = ".".ToList();
+        public readonly List<char> TagIdentifier = "'".ToList();
         public readonly List<char> FunctionIdentifier = ":".ToList();
         public readonly List<char> MillisecondsAttribute = "Milliseconds".ToList();
         public readonly List<char> SecondsAttribute = "Seconds".ToList();
@@ -52,7 +52,7 @@ namespace Echse.Language
         public readonly List<char> Return = "Return".ToList();
 
 
-        private readonly Dictionary<List<char>,LexiconSymbol> SymbolTable = new Dictionary<List<char>, LexiconSymbol>();
+        private readonly Dictionary<List<char>,LexiconSymbol> SymbolTable = new();
 
         private void InitializeSymbolTable()
         {
