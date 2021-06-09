@@ -15,8 +15,14 @@ namespace Echse.Language
         {
             var currentSeekIndex = FunctionIndex;
 
-            while (currentSeekIndex != -1 && Owner.Instructions[currentSeekIndex -= 1].GetType() != typeof(IfInstruction))
+            while (currentSeekIndex != -1 && (
+                Owner.Instructions[currentSeekIndex -= 1].GetType() != typeof(IfInstruction)
+                && currentSeekIndex != 0
+                ))
+            {
                 continue;
+            }
+
             if (currentSeekIndex < 0)
                 throw new InvalidOperationException($"Syntax Error: If scope not found for EndIf in index {FunctionIndex}");
             IfScopeIndex = currentSeekIndex;

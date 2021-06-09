@@ -10,27 +10,36 @@ namespace Echse.Language
     /// </summary>
     public class CreateExpression : AbstractLanguageExpression
     {
-        public VariableExpression Identifier { get; set; }
+        public List<VariableExpression> Identifiers { get; set; } = new();
         public CreatorExpression Creator { get; set; }
 
-        private List<LexiconSymbol> ValidLexemes { get; set; } = new List<LexiconSymbol>() {
+        private List<LexiconSymbol> ValidLexemes { get; } = new List<LexiconSymbol>() {
                 LexiconSymbol.CreatorIdentifier,
                 LexiconSymbol.CreatorLetter,
                 LexiconSymbol.TagIdentifier,
                 LexiconSymbol.TagLetter,
                 LexiconSymbol.EntityIdentifier,
                 LexiconSymbol.EntityLetter,
-                LexiconSymbol.Letter
+                LexiconSymbol.Letter,
+                LexiconSymbol.SkipMaterial
         };
 
         public override void Handle(IStateMachine<string, Tokenizer> machine)
         {
             if (machine.SharedContext.Current != LexiconSymbol.Create)
                 return;
-            while (Identifier == null || Creator == null)
+            // at this point, one creation identifier was found
+            while ((Identifiers == null ||
+                    Identifiers.Count == 0 ||
+                    ValidLexemes.Contains(machine.SharedContext.Current) ||
+                    Creator == null))
             {
                 if (!machine.SharedContext.MoveNext())
                     break;
+                
+                if (machine.SharedContext.Current == LexiconSymbol.Create)
+                    break;
+
                 if (!ValidLexemes.Contains(machine.SharedContext.Current))
                     continue;
 
@@ -44,21 +53,23 @@ namespace Echse.Language
                 if (machine.SharedContext.Current == LexiconSymbol.TagIdentifier)
                 {
                     // Console.WriteLine($"adding {nameof(TagExpression)}");
-                    Identifier = new TagExpression();
-                    Identifier.Handle(machine);
+                    var identifier = new TagExpression();
+                    identifier.Handle(machine);
+                    Identifiers.Add(identifier);
                 }
 
                 if (machine.SharedContext.Current == LexiconSymbol.Letter)
                 {
                     // Console.WriteLine($"adding {nameof(IdentifierExpression)}");
-                    Identifier = new IdentifierExpression();
-                    Identifier.Handle(machine);
+                    var identifier = new IdentifierExpression();
+                    identifier.Handle(machine);
+                    Identifiers.Add(identifier);
                 }
             }
             if (Creator == null)
                 throw new InvalidOperationException($"Syntax error: ${nameof(Creator)} side is not implemented near {machine.SharedContext.CurrentBuffer}");
-            if (Identifier == null)
-                throw new InvalidOperationException($"Syntax error: ${nameof(Identifier)} side is not implemented near {machine.SharedContext.CurrentBuffer}");            
+            if (Identifiers.Count == 0)
+                throw new InvalidOperationException($"Syntax error: ${nameof(Identifiers)} side is not implemented near {machine.SharedContext.CurrentBuffer}");
         }
     }
 }

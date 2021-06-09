@@ -79,7 +79,7 @@ namespace Echse.Language
         private void HandleCreateInstruction<TEntity>(Func<LexiconSymbol, 
                 bool> symbolPredicate, 
                 Func<string, bool> predicate,
-                Action<string, string> functionWithArgumentsToCall)
+                Action<string, string, IEnumerable<string>> functionWithArgumentsToCall)
         {
             if (!symbolPredicate(SharedContext.Current))
                 return;
@@ -88,7 +88,7 @@ namespace Echse.Language
 
             new CreateInstruction<TEntity>(this, expr, Instructions.Count, predicate, functionWithArgumentsToCall);
         }
-        
+
         private void HandleModifyInstruction<TEntity>(Func<LexiconSymbol, 
                 bool> symbolPredicate, 
             Func<string, IEnumerable<TEntity>> tagPredicate,
@@ -97,7 +97,7 @@ namespace Echse.Language
         {
             if (!symbolPredicate(SharedContext.Current))
                 return;
-            
+
             var expr = new ModifyAttributeExpression();
             expr.Handle(this);
 
@@ -119,7 +119,7 @@ namespace Echse.Language
         public Interpreter AddCreateInstruction<TEntity>(
             Func<LexiconSymbol, bool> createSymbolPredicate,
             Func<string, bool> createPredicate,
-            Action<string, string> createFunctionWithArgumentsToCall)
+            Action<string, string, IEnumerable<string>> createFunctionWithArgumentsToCall)
         {
             _createList.Add(() =>
             {

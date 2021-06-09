@@ -199,7 +199,7 @@ namespace Echse.Language
                 var rawCharacter = TokenStreamReader.Read();
                 var convertedCharacter = Convert.ToChar(rawCharacter);
                 var singleToken = LanguageTokens.FindLexiconSymbol(convertedCharacter);
-                Console.WriteLine(convertedCharacter);
+                
                 CurrentTokenBuffer.Add(convertedCharacter);
 
                 var validTokenBuffer = LanguageTokens.FindLexiconSymbol(CurrentTokenBuffer);

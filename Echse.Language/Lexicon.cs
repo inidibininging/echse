@@ -31,7 +31,7 @@ namespace Echse.Language
         public readonly List<char> Alpha = "Alpha".ToList();
         public readonly List<char> Color = "Color".ToList();
         public readonly List<char> ExecuteAttribute = "!".ToList();
-        public readonly List<char> CreateAttribute = "@>".ToList();
+        public readonly List<char> CreateAttribute = "@".ToList();
         public readonly List<char> DestroyAttribute = "<@".ToList();
         // public readonly List<char> ClassNameForAttributes = typeof(CharacterSheet).FullName.ToList();
         public readonly List<char> EntityIdentifier = "#".ToList();
