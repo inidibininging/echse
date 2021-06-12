@@ -18,7 +18,7 @@ namespace Echse.Language
                 throw new ArgumentNullException(nameof(DestroyExpression));
 
             var factionToDestroy = Expression.Identifier.Name;
-            machine.SharedContext.RemoveTag(factionToDestroy);
+            machine.SharedContext.RemoveTagByName(factionToDestroy);
         }
     }
 }

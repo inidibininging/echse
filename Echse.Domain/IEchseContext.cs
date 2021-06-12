@@ -19,12 +19,18 @@ namespace Echse.Domain
         /// </summary>
         /// <param name="variable"></param>
         void AddVariable(TagVariable variable);
-        
+
         /// <summary>
         /// Removes a tag from the language
         /// </summary>
         /// <param name="tagName"></param>
-        void RemoveTag(string tagName);
+        void RemoveTagByName(string tagName);
 
+
+        /// <summary>
+        /// Removes a tag from the language
+        /// </summary>
+        /// <param name="tagName"></param>
+        void RemoveTagByNameAndScope(string tagName, string scope);
     }
 }
