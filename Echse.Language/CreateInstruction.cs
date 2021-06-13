@@ -52,6 +52,8 @@ namespace Echse.Language
             while (variable == null)
             {
                 var argumentIndex = lastFn.GetFunctionArgumentIndex(identifierName);
+                if (argumentIndex < 0)
+                    throw new Exception($"Cannot find {identifierName}. Variable doesn't exist");
                 variable = lastFn
                             .LastCaller
                             .GetVariableOfFunction(machine, argumentIndex);
