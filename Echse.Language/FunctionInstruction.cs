@@ -4,10 +4,12 @@ using States.Core.Infrastructure.Services;
 
 namespace Echse.Language
 {
-    public class FunctionInstruction : AbstractInterpreterInstruction<FunctionExpression>
+    public class FunctionInstruction : AbstractInterpreterInstruction<FunctionExpression>, ICustomReturnInstruction
     {
         public ExecuteInstruction LastCaller { get; set; }
         public ReturnExpression LastReturnValue {get; set;}
+
+
         public FunctionInstruction(Interpreter interpreter, FunctionExpression function, int functionIndex) 
             : base(interpreter, function, functionIndex)
         {

@@ -14,6 +14,49 @@ namespace Echse.Language
         
         }
 
+        private TagVariable GetVariableRef(string name, IStateMachine<string, IEchseContext> machine)
+        {
+            //get the variable out of the function scope 
+            var variable = machine
+                .SharedContext
+                .Variables
+                .FirstOrDefault(t => t.Name == name &&
+                                     t.Scope == Scope?.Expression.Name);
+
+            var lastFn = Scope;
+            var identifierName = name;
+            
+            // look up the variable inside the function arguments 
+            while (variable == null)
+            {
+                var argumentIndex = lastFn.GetFunctionArgumentIndex(identifierName);
+                
+                if (argumentIndex < 0)
+                    throw new ArgumentNullException(nameof(identifierName),
+                        $"Tag with name {identifierName} not found inside {Scope.Expression.Name}");
+                
+                variable = lastFn
+                    .LastCaller
+                    .GetVariableOfFunction(machine, argumentIndex);
+                if (variable != null)
+                    continue;
+                identifierName = lastFn
+                    .LastCaller
+                    .Expression
+                    .Arguments
+                    .Arguments
+                    .ElementAt(argumentIndex)
+                    .Name;
+                lastFn = lastFn.LastCaller.Scope;
+                
+            }
+            if (variable.DataTypeSymbol != LexiconSymbol.RefDataType)
+                throw new InvalidOperationException($"Syntax error. Cannot execute the instruction. Data type of variable is not a function reference.");
+            // Console.WriteLine($"Variable:{variable.Name} Current Value:{variable.Value}");
+            // Console.WriteLine(System.Environment.NewLine);
+            return variable;
+        }
+
         private TagVariable GetVariable(string name, IStateMachine<string, IEchseContext> machine)
         {
             //get the variable out of the function scope 
@@ -122,8 +165,20 @@ namespace Echse.Language
 
                         if (theFunction == null)
                         {
-                            var functionOfMachine = machine.GetService.Get(Expression.Right.Name) as ICustomReturnInstruction;
-                            tagValueAssigned = functionOfMachine?.ReturnTagValue;
+                            var functionName = Expression.Right.Name;
+                            if(!machine.GetService.HasState(functionName))
+                            {
+                                var refVar = GetVariableRef(Expression.Right.Name, machine);
+                                if(refVar.DataTypeSymbol != LexiconSymbol.RefDataType){
+                                    throw new ArgumentException($"Several declarations of {Expression.Right.Name}. Please avoid declaring multiple variables with the same name and different types");
+                                }
+                                if(!machine.GetService.HasState(refVar.Value)){
+                                    throw new ArgumentException($"Cannot find function {refVar.Value}");
+                                }
+                                functionName = refVar.Value;
+                            }
+                            var functionOfMachine = machine.GetService.Get(functionName) as ICustomReturnInstruction;
+                            tagValueAssigned = functionOfMachine?.LastReturnValue?.Value.Name ?? "";
                         }
                         else
                         {

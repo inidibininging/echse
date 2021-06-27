@@ -5,6 +5,6 @@ namespace Echse.Language
 {
     public interface ICustomReturnInstruction : IState<string, IEchseContext>
     {
-        public string ReturnTagValue { get; }
+        public ReturnExpression LastReturnValue { get; }
     }
 }

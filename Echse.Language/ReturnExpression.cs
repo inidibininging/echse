@@ -22,7 +22,14 @@ namespace Echse.Language
                 Value = new TagExpression();
                 Value.Handle(machine);
             }
-
+        
+            while(
+                machine.SharedContext.Current == LexiconSymbol.Identifier || 
+                machine.SharedContext.Current == LexiconSymbol.Letter)
+            {
+                Value = new IdentifierExpression();
+                Value.Handle(machine);
+            }
             // Console.WriteLine($"Faction set to {Name}");
             if (Value == null)
                 throw new ArgumentNullException($"Syntax Error. No Tag expression found near {machine.SharedContext.CurrentBuffer}");

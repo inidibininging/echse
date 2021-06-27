@@ -103,6 +103,11 @@ namespace Echse.Language
                     EndIfIndex = (currentInstruction as IfInstruction).EndIfIndex; // Does it need +1 ???
                     break;
                 }
+                if (currentInstruction is ReturnInstruction)
+                {
+                    // Console.WriteLine("wait instruction found. aborting function instruction");
+                    break;
+                }
                 if (currentInstruction is WaitInstruction)
                 {
                     // Console.WriteLine("wait instruction found. aborting function instruction");
