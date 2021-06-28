@@ -49,13 +49,13 @@ namespace Echse.Language
                 HandleInstruction<EndIfExpression, EndIfInstruction>((s) => s == LexiconSymbol.EndIf);
                         
                 // HandleInstruction<CreateExpression, CreateInstruction<T>>((s) => s == LexiconSymbol.Create);
-                _createList.ForEach(createInstruction => createInstruction());
                 HandleInstruction<DestroyExpression, DestroyInstruction>((s) => s == LexiconSymbol.Destroy);
                 HandleInstruction<ExecuteExpression, ExecuteInstruction>((s) => s == LexiconSymbol.Execute); //TODO: Fix this 
                 HandleInstruction<FunctionExpression, FunctionInstruction>((s) => s == LexiconSymbol.FunctionIdentifier); //TODO: Fix this
                 HandleInstruction<AssignExpression, AssignInstruction>((s) => s == LexiconSymbol.Set);
                 HandleInstruction<ReturnExpression, ReturnInstruction>((s) => s == LexiconSymbol.Return);
                 HandleInstruction<WaitExpression, WaitInstruction>((s) => s == LexiconSymbol.Wait);
+                _createList.ForEach(createInstruction => createInstruction());
                 _customList.ForEach(customInstruction => customInstruction());
                 _modifyList.ForEach(modInstruction => modInstruction());
                 

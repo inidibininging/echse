@@ -12,7 +12,7 @@ namespace Echse.Language
     {
         private Lexicon LanguageTokens { get; set; } = new Lexicon();
         private List<char> CurrentTokenBuffer { get; set; }
-        public ReadOnlyCollection<char> CurrenBufferRaw => CurrentTokenBuffer.AsReadOnly();
+        public ReadOnlyCollection<char> CurrentBufferRaw => CurrentTokenBuffer.AsReadOnly();
         public string CurrentBuffer => string.Join("", CurrentTokenBuffer);
 
         private LexiconSymbol CurrentSymbol {get; set; }
@@ -201,15 +201,16 @@ namespace Echse.Language
                 var singleToken = LanguageTokens.FindLexiconSymbol(convertedCharacter);
                 
                 CurrentTokenBuffer.Add(convertedCharacter);
-
+                // Console.Write(convertedCharacter);
                 var validTokenBuffer = LanguageTokens.FindLexiconSymbol(CurrentTokenBuffer);
 
                 var tempValidTokenBuffer = validTokenBuffer;
                 var rulesToApply = validTokenBuffer;
 
-                if (singleToken == LexiconSymbol.TagIdentifier)
+                if (singleToken == LexiconSymbol.TagIdentifier) {
                     _pairSymbolCount += 1;
-                
+                }
+
                 rulesToApply = Rules
                     .Select(appliedRule => rulesToApply = appliedRule(singleToken, rulesToApply, CurrentSymbol, _pairSymbolCount))
                     .LastOrDefault(ls => ls != LexiconSymbol.NA);
@@ -232,8 +233,11 @@ namespace Echse.Language
                 }
 
                 //reset pair symbol counter
-                if (_pairSymbolCount > 1 && singleToken != LexiconSymbol.TagIdentifier)
+                if (_pairSymbolCount > 1 && singleToken != LexiconSymbol.TagIdentifier){
+                    
                     _pairSymbolCount = 0;
+                    CurrentTokenBuffer.Clear();
+                }
                 
                 if(CurrentSymbol != LexiconSymbol.NA)
                 {

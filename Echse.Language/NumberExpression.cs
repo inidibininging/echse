@@ -13,8 +13,8 @@ namespace Echse.Language
         {
             var entityName = new StringBuilder();
             while(machine.SharedContext.Current == LexiconSymbol.Number){
-                if(machine.SharedContext.CurrenBufferRaw.Count > 0)
-                    entityName.Append(machine.SharedContext.CurrenBufferRaw.Last());
+                if(machine.SharedContext.CurrentBufferRaw.Count > 0)
+                    entityName.Append(machine.SharedContext.CurrentBufferRaw.Last());
                 if(!machine.SharedContext.MoveNext())
                     break;
             }

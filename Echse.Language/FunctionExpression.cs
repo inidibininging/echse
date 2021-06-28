@@ -14,8 +14,8 @@ namespace Echse.Language
             // Console.WriteLine(machine.SharedContext.CurrentBuffer);
             var functionName = new StringBuilder();
             while(machine.SharedContext.Current == LexiconSymbol.FunctionIdentifier || machine.SharedContext.Current == LexiconSymbol.FunctionLetter){
-                if(machine.SharedContext.CurrenBufferRaw.Count > 0)
-                    functionName.Append(machine.SharedContext.CurrenBufferRaw.Last());
+                if(machine.SharedContext.CurrentBufferRaw.Count > 0)
+                    functionName.Append(machine.SharedContext.CurrentBufferRaw.Last());
                 if(!machine.SharedContext.MoveNext())
                     break;
             }

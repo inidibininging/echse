@@ -14,8 +14,8 @@ namespace Echse.Language
             var entityName = new StringBuilder();           
             
             while (machine.SharedContext.Current == LexiconSymbol.Letter) {
-                if(machine.SharedContext.CurrenBufferRaw.Count > 0)
-                    entityName.Append(machine.SharedContext.CurrenBufferRaw.Last());
+                if(machine.SharedContext.CurrentBufferRaw.Count > 0)
+                    entityName.Append(machine.SharedContext.CurrentBufferRaw.Last());
                 // Console.WriteLine(machine.SharedContext.CurrentBuffer);
                 if(!machine.SharedContext.MoveNext())
                     break;

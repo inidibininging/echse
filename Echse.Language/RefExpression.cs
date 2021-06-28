@@ -15,8 +15,8 @@ namespace Echse.Language
             while(machine.SharedContext.Current == LexiconSymbol.RefIdentifier || 
                   machine.SharedContext.Current == LexiconSymbol.RefLetter)
             {
-                if(machine.SharedContext.CurrenBufferRaw.Count > 0)
-                    entityName.Append(machine.SharedContext.CurrenBufferRaw.Last());
+                if(machine.SharedContext.CurrentBufferRaw.Count > 0)
+                    entityName.Append(machine.SharedContext.CurrentBufferRaw.Last());
                 // Console.WriteLine("ok faction");
                 // Console.WriteLine(machine.SharedContext.CurrentBuffer);
                 if(!machine.SharedContext.MoveNext())
