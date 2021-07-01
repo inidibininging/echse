@@ -22,7 +22,6 @@ namespace Echse.Language
                     break;
             }
             Name = string.Join("",entityName.ToString().Skip(1).SkipLast(1));
-            Console.WriteLine($"Tag: {Name}");
             if (string.IsNullOrWhiteSpace(Name))
                 throw new ArgumentNullException($"Syntax Error. Cannot process Tag Expression Name near {machine.SharedContext.CurrentBuffer}");
         }

@@ -8,17 +8,14 @@ namespace Echse.Language
 {
     public class CreateInstruction<T> : AbstractInterpreterInstruction<CreateExpression>
     {
-        private readonly Func<string, bool> _predicate;
         private readonly Action<string, string, IEnumerable<string>> _functionWithArgumentsToCall;
 
         public CreateInstruction(Interpreter interpreter, 
                                 CreateExpression createExpression, 
                                 int functionIndex, 
-                                Func<string, bool> predicate,
                                 Action<string, string, IEnumerable<string>> functionWithArgumentsToCall)
             : base(interpreter, createExpression, functionIndex)
         {
-            _predicate = predicate;
             _functionWithArgumentsToCall = functionWithArgumentsToCall;
         }
         
@@ -32,9 +29,6 @@ namespace Echse.Language
                 else
                     return id.Name;
             });
-
-            if (!_predicate(Expression.Creator.Name)) return;
-
             _functionWithArgumentsToCall(Scope.Expression.Name ,Expression.Creator.Name, arguments);
         }
 
