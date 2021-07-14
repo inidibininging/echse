@@ -6,7 +6,8 @@ using States.Core.Infrastructure.Services;
 
 namespace Echse.Language
 {
-    public class WaitInstruction : AbstractInterpreterInstruction<WaitExpression>
+    public class WaitInstruction : 
+        AbstractInterpreterInstruction<WaitExpression>
     {
         private WaitExpression Wait { get; }
         private TimeSpan WaitTimeSpan { get; set; } = TimeSpan.Zero;

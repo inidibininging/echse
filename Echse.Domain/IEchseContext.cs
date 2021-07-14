@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using States.Core.Infrastructure.Services;
 
 namespace Echse.Domain
 {

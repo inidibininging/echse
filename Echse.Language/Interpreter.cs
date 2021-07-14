@@ -7,7 +7,7 @@ using States.Core.Infrastructure.Services;
 
 namespace Echse.Language
 {
-    public class Interpreter : IStateMachine<string,Tokenizer>
+    public class Interpreter : IStateMachine<string, Tokenizer>
     {
         public static MemoryStream GenerateStreamFromString(string value)
         {

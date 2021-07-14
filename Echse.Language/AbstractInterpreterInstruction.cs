@@ -6,7 +6,8 @@ using States.Core.Infrastructure.Services;
 namespace Echse.Language
 {
     public abstract class AbstractInterpreterInstruction<TExpr> 
-        : IAbstractInterpreterInstruction<TExpr> where TExpr : class, IAbstractLanguageExpression
+        : IAbstractInterpreterInstruction<TExpr> 
+        where TExpr : class, IAbstractLanguageExpression
     {
         protected Interpreter Owner { get;}
         protected int ConcurrentExecutions {get; set;}

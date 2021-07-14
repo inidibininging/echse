@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Echse.Domain;
 using States.Core.Infrastructure.Services;
@@ -14,6 +15,10 @@ namespace Echse.Language
             : base(interpreter, function, functionIndex)
         {
             // Console.WriteLine("adding function instruction " + function.Name);
+            Console.WriteLine(interpreter.Context.NewService.GetType().ToString());
+                        
+            Console.WriteLine(interpreter.Context.GetType().ToString());
+                        
             interpreter.Context.NewService.New(Expression.Name,this);
         }
 
