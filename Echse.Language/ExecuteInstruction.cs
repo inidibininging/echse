@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Echse.Domain;
+using States.Core.Common;
 using States.Core.Infrastructure.Services;
 
 namespace Echse.Language
@@ -88,8 +89,29 @@ namespace Echse.Language
                 throw new KeyNotFoundException(fn + " not found");
             
             var fnAsFunction = machine.GetService.Get(fn);
-            if (fnAsFunction is FunctionInstruction)
+            if (fnAsFunction is FunctionInstruction){
                 (fnAsFunction as FunctionInstruction).LastCaller = this;
+            }
+
+            /* 
+                Ugliest workaround ever. 
+                Due to some ugly generic code, there is no chance of checking the type against function instruction :'(
+                Needs to be fixed later. This can cause major performance issues due to reflection
+                A TODO
+
+                For now, the property Bag holds the real function. (See )                
+            */ 
+            var type = fnAsFunction.GetType();
+            var prop = type.GetProperty("Bag");
+            if(prop != null){
+                var propBagHolder = prop.GetValue(fnAsFunction);            
+                var function = propBagHolder.GetType().GetProperty("Bag");
+                var functionValue = function?.GetValue(propBagHolder);
+                if (functionValue is FunctionInstruction){                
+                    (functionValue as FunctionInstruction).LastCaller = this;
+                }
+            }
+
             machine.Run(fn);
         }
 
